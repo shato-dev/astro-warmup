@@ -1,0 +1,43 @@
+---
+// A single post preview used in list pages.
+import { formatDate, href } from '../lib/posts';
+
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+}
+
+const { slug, title, description, date, tags } = Astro.props;
+---
+
+<article class="post-card">
+  <time datetime={formatDate(date)}>{formatDate(date)}</time>
+  <h2><a href={href(`/posts/${slug}`)}>{title}</a></h2>
+  <p>{description}</p>
+  <p class="post-card-tags">
+    {tags.map((tag) => <a class="tag" href={href(`/tags/${tag}`)}>#{tag}</a>)}
+  </p>
+</article>
+
+<style>
+  .post-card {
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .post-card h2 {
+    margin: 0.2rem 0 0.4rem;
+    font-size: 1.15rem;
+  }
+  .post-card h2 a {
+    text-decoration: none;
+  }
+  .post-card p {
+    margin: 0.3rem 0;
+  }
+  .post-card-tags {
+    margin-top: 0.5rem;
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts, href } from '../../lib/posts';
+
+const posts = await getPublishedPosts();
+
+// Count how many posts each tag has: { astro: 4, diary: 3, git: 1 }
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
+  }
+}
+const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="タグ一覧">
+  <h1>タグ一覧</h1>
+  <ul class="tag-list">
+    {tags.map(([tag, count]) => (
+      <li><a class="tag" href={href(`/tags/${tag}`)}>#{tag}</a> <span>{count}</span></li>
+    ))}
+  </ul>
+</BaseLayout>
+
+<style>
+  .tag-list {
+    list-style: none;
+    padding: 0;
+  }
+  .tag-list li {
+    margin: 0.5rem 0;
+  }
+  .tag-list span {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+</style>

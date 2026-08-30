@@ -1,0 +1,57 @@
+# Runs on GitHub's servers for every push and every pull request.
+# - build:  install deps and build the site. Fails the check on a broken build.
+# - deploy: on main only, publish the built site to GitHub Pages.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least privilege by default; the deploy job widens its own permissions below.
+permissions:
+  contents: read
+
+# Let a running Pages deploy finish before the next one starts.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24 # matches the local dev version
+          cache: npm
+
+      # `npm ci` installs strictly from package-lock.json (reproducible),
+      # unlike `npm install` which may update the lockfile.
+      - run: npm ci
+
+      # The actual check: the site must build without errors.
+      - run: npm run build
+
+      # Package dist/ as a Pages artifact so the deploy job can pick it up.
+      # Only needed on main; PRs just need the build to pass.
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write # to publish to Pages
+      id-token: write # to prove the deploy came from this workflow
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

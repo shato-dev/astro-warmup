@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { getPublishedPosts } from '../lib/posts';
+
+// Runs at build time, on this machine. `posts` is baked into the HTML.
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout title="記事一覧" description="Astro 学習中のメモ置き場">
+  <h1>学習ログ</h1>
+  <p>Astro とローカル開発に慣れるための準備運動プロジェクト。全 {posts.length} 記事。</p>
+
+  {posts.map((post) => (
+    <PostCard
+      slug={post.id}
+      title={post.data.title}
+      description={post.data.description}
+      date={post.data.date}
+      tags={post.data.tags}
+    />
+  ))}
+</BaseLayout>
