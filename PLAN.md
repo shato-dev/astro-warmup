@@ -32,7 +32,7 @@ Astro で「学習ログ」の静的サイトを数時間で作る。
 - **`gh` は `/opt/homebrew/bin/gh`**。PATH に無いことがあるので `export PATH="/opt/homebrew/bin:$PATH"` を付ける。認証済み。
 - **dev サーバー**: `.claude/launch.json` に `astro-dev`(port 4321)を定義済み。Browser プレビューツールの `preview_start({name:"astro-dev"})` で起動。**`content.config.ts` 追加後は dev サーバーの再起動が必要だった**(collection を認識しない)。
 - **ビルド確認**: `npm run build` → 現在 21 ページ生成(公開記事13 + タグ5 + 一覧2 + search.json)。
-- **PR 履歴**: #1 pages(merge commit)/ #2 search / #3 CI / #4 Pages / #5 記事拡充 / #6 概要+言語入門記事。#2 以降は squash + branch 削除。#5 以降のマージは Claude Code 側で実施(ユーザー承認済み)。
+- **履歴リセット済み(2026-08-30)**: コミットメタデータに個人メールが露出していたため、リポジトリを一度削除 → 全履歴を1コミットに畳んで公開し直した。git のメール設定はローカル・グローバルとも GitHub の noreply アドレスに変更済み。**過去の PR #1〜#6 とコミット履歴は残っていない**(成果物のみ保持)。
 - **記事構成**: 学習ステップ対応の7本 + 概要「Astro 初心者が Claude Code で〜」+ 言語入門5本(タグ `basics`: JS/TS/Astro構文/YAML/シェル)+ 下書き1本。タグ: astro8 / diary5 / basics5 / git3 / ci3。
 - **Markdown リンクの制約**: 記事本文中の `[x](/posts/y)` は `base` が付かず公開後 404。記事間参照は本文で「別記事『タイトル』」と書く。実ファイルは GitHub の公開 blob URL を貼る。
 - **CI/CD**: `main` に push すると `.github/workflows/ci.yml` が build → deploy(Pages)。`gh run list --branch main` / `gh run watch <id> --exit-status` で監視。
