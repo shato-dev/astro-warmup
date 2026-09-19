@@ -87,7 +87,7 @@ Astro で「学習ログ」の静的サイトを数時間で作る。
 | **gh** | GitHub をコマンドで操作する公式 CLI。repo 作成や PR 作成をターミナルから行える。 |
 | **Pull Request (PR)** | 「このブランチの変更を `main` に取り込みたい」という提案。差分レビューと議論の場。個人開発でも変更単位の記録として有用。 |
 | **GitHub Actions / CI** | push や PR のたびに GitHub のサーバー上で決めた処理(ビルド・テスト等)を自動実行する仕組み。CI = Continuous Integration。 |
-| **GitHub Pages** | GitHub が無料で提供する静的サイトの配信場所。`https://<ユーザー名>.github.io/<repo>/` で公開される。本番の Cloudflare Pages とほぼ同じ役割。 |
+| **GitHub Pages** | GitHub が無料で提供する静的サイトの配信場所。`https://<ユーザー名>.github.io/<repo>/` で公開される。本番の Cloudflare Workers とほぼ同じ役割。 |
 
 ---
 
@@ -243,7 +243,7 @@ Astro で「学習ログ」の静的サイトを数時間で作る。
 > `npm run build` → 生成した `dist/` を Pages に配置 → 数十秒で
 > `https://shato-dev.github.io/astro-warmup/` が更新される。
 > 「push するだけで本番サイトが自動更新される」CI/CD の最小体験。パブリック repo なら無料・カード不要。
-> 本番の Cloudflare Pages とほぼ同じ役割なので、ここで流れを掴むと本番設定がほぼ同じ絵に見える。
+> 本番の Cloudflare Workers とほぼ同じ役割なので、ここで流れを掴むと本番設定がほぼ同じ絵に見える。
 
 - **何をするか**:
   1. `astro.config.mjs` に `site: 'https://shato-dev.github.io'` と `base: '/astro-warmup'` を設定。
